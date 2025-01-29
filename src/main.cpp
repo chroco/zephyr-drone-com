@@ -6,10 +6,13 @@
 
 #include "drone_com.h"
 
+//*
 int main()
 {
   Wifi wifi = Wifi();
   wifi.connect();
+
+  startSocketServer();
 
   while(1)
   {
@@ -18,3 +21,4 @@ int main()
 
   return 0;
 }
+//*/

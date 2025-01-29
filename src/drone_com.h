@@ -14,7 +14,7 @@
 	 NET_EVENT_WIFI_AP_STA_CONNECTED | NET_EVENT_WIFI_AP_STA_DISCONNECTED)
 
 /* AP Mode Configuration */
-#define WIFI_AP_SSID       "ESP32-AP"
+#define WIFI_AP_SSID       "Lightside"
 #define WIFI_AP_PSK        ""
 #define WIFI_AP_IP_ADDRESS "192.168.4.1"
 #define WIFI_AP_NETMASK    "255.255.255.0"
@@ -22,8 +22,6 @@
 /* STA Mode Configuration */
 #define WIFI_SSID "Darkside"     /* Replace `SSID` with WiFi ssid. */
 #define WIFI_PSK  "AnnieAreYouOK?" /* Replace `PASSWORD` with Router password. */
-//#define WIFI_SSID "SSID"     /* Replace `SSID` with WiFi ssid. */
-//#define WIFI_PSK  "PASSWORD" /* Replace `PASSWORD` with Router password. */
 
 class Wifi
 {
@@ -45,10 +43,8 @@ class Wifi
     static void enable_dhcpv4_server(void);
     static int enable_ap_mode(void);
     static int connect_to_wifi(void);
-
-
-
 };
 
+int startSocketServer(void);
 
 #endif
