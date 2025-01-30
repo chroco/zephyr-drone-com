@@ -5,6 +5,24 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/net/wifi_mgmt.h>
 #include <zephyr/net/dhcpv4_server.h>
+#include <zephyr/shell/shell.h>
+#include <zephyr/logging/log.h>
+#include <zephyr/kernel.h>
+#include <zephyr/linker/sections.h>
+#include <errno.h>
+#include <zephyr/net/net_core.h>
+#include <zephyr/net/tls_credentials.h>
+#include <zephyr/net/net_mgmt.h>
+#include <zephyr/net/net_event.h>
+#include <zephyr/net/conn_mgr_monitor.h>
+#include "certificate.h"
+
+extern "C" {
+#include "common.h"
+}
+
+#define APP_BANNER "Run echo server"
+
 
 #define MACSTR "%02X:%02X:%02X:%02X:%02X:%02X"
 
@@ -45,6 +63,25 @@ class Wifi
     static int connect_to_wifi(void);
 };
 
-int startSocketServer(void);
+class SocketServer
+{
+  public:
+    SocketServer();
+    ~SocketServer();
+  
+    int startSocketServer(void);
+    static int cmd_sample_quit(const shell *, size_t, char *[]);
+    //void quit(void);
+  private:
+    static void init_app(void);
+    static void event_handler(net_mgmt_event_callback *, uint32_t, net_if *);
+    static void start_udp_and_tcp(void);
+    static void stop_udp_and_tcp(void);
+
+    static bool want_to_quit;
+    static bool connected;
+    static net_mgmt_event_callback mgmt_cb;
+};
+
 
 #endif
