@@ -196,9 +196,11 @@ SocketServer::~SocketServer()
 
 k_sem quit_lock = {0};
 net_mgmt_event_callback SocketServer::mgmt_cb = {0};
-bool SocketServer::connected = false;
+static bool connected = false;
+//bool SocketServer::connected = false;
 K_SEM_DEFINE(run_app, 0, 1);
-bool SocketServer::want_to_quit = false;
+//bool SocketServer::want_to_quit = false;
+static bool want_to_quit = false;
 
 #if defined(CONFIG_USERSPACE)
 K_APPMEM_PARTITION_DEFINE(app_partition);
@@ -217,7 +219,6 @@ APP_DMEM struct configs conf = {
 	},
 };
 
-//void SocketServer::quit(void)
 void quit(void)
 {
 	k_sem_give(&quit_lock);
@@ -249,7 +250,8 @@ void SocketServer::stop_udp_and_tcp(void)
 	}
 }
 
-void SocketServer::event_handler(net_mgmt_event_callback *cb, uint32_t mgmt_event, net_if *iface)
+//void SocketServer::event_handler(net_mgmt_event_callback *cb, uint32_t mgmt_event, net_if *iface)
+static void event_handler(net_mgmt_event_callback *cb, uint32_t mgmt_event, net_if *iface)
 {
 	ARG_UNUSED(iface);
 	ARG_UNUSED(cb);
@@ -355,7 +357,8 @@ void SocketServer::init_app(void)
 
 	if (IS_ENABLED(CONFIG_NET_CONNECTION_MANAGER)) {
 		net_mgmt_init_event_callback(&mgmt_cb,
-					     SocketServer::event_handler, EVENT_MASK);
+					     event_handler, EVENT_MASK);
+					     //SocketServer::event_handler, EVENT_MASK);
 		net_mgmt_add_event_callback(&mgmt_cb);
 
 		conn_mgr_mon_resend_status();
@@ -367,14 +370,14 @@ void SocketServer::init_app(void)
 	init_usb();
 }
 
-int SocketServer::cmd_sample_quit(const struct shell *sh, size_t argc, char *argv[])
+//int SocketServer::cmd_sample_quit(const struct shell *sh, size_t argc, char *argv[])
+static int cmd_sample_quit(const struct shell *sh, size_t argc, char *argv[])
 {
 	want_to_quit = true;
 
 	conn_mgr_mon_resend_status();
 
 	quit();
-	//SocketServer::quit();
 
 	return 0;
 }
@@ -382,14 +385,14 @@ int SocketServer::cmd_sample_quit(const struct shell *sh, size_t argc, char *arg
 SHELL_STATIC_SUBCMD_SET_CREATE(sample_commands,
 	SHELL_CMD(quit, NULL,
 		  "Quit the sample application\n",
-		  SocketServer::cmd_sample_quit),
+		  cmd_sample_quit),
 	SHELL_SUBCMD_SET_END
 );
 
 SHELL_CMD_REGISTER(sample, &sample_commands,
 		   "Sample application commands", NULL);
 
-int SocketServer::startSocketServer(void)
+int SocketServer::startEchoServer(void)
 {
   init_app();
 	
@@ -405,7 +408,6 @@ int SocketServer::startSocketServer(void)
 	k_sem_take(&run_app, K_FOREVER);
 
   start_udp_and_tcp();
-  //SocketServer::start_udp_and_tcp();
 
 	k_sem_take(&quit_lock, K_FOREVER);
 

@@ -12,7 +12,7 @@ int main()
   wifi.connect();
 
   SocketServer server = SocketServer();
-  server.startSocketServer();
+  server.startEchoServer();
 
   while(1)
   {

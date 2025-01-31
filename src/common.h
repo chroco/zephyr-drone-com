@@ -5,6 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MY_PORT 4242
 #if defined(CONFIG_NET_SOCKETS_SOCKOPT_TLS) || defined(CONFIG_NET_TCP) || \
@@ -115,3 +118,7 @@ static inline int init_usb(void)
 	return 0;
 }
 #endif /* CONFIG_USB_DEVICE_STACK */
+
+#ifdef __cplusplus
+}
+#endif

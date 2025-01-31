@@ -7,6 +7,10 @@
 #ifndef __CERTIFICATE_H__
 #define __CERTIFICATE_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define SERVER_CERTIFICATE_TAG 1
 #define PSK_TAG 2
 
@@ -38,6 +42,10 @@ static const unsigned char private_key[] = {
 
 #if defined(CONFIG_MBEDTLS_KEY_EXCHANGE_PSK_ENABLED)
 #include CONFIG_NET_SAMPLE_PSK_HEADER_FILE
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif /* __CERTIFICATE_H__ */
