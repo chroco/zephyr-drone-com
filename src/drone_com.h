@@ -20,10 +20,8 @@
 #define WIFI_AP_NETMASK    "255.255.255.0"
 
 /* STA Mode Configuration */
-#define WIFI_SSID "Darkside"     /* Replace `SSID` with WiFi ssid. */
-#define WIFI_PSK  "AnnieAreYouOK?" /* Replace `PASSWORD` with Router password. */
-//#define WIFI_SSID "SSID"     /* Replace `SSID` with WiFi ssid. */
-//#define WIFI_PSK  "PASSWORD" /* Replace `PASSWORD` with Router password. */
+#define WIFI_SSID "Darkside"        // network `SSID` 
+#define WIFI_PSK  "AnnieAreYouOK?"  // router `PASSWORD` 
 
 class Wifi
 {
@@ -41,7 +39,8 @@ class Wifi
 
     static net_mgmt_event_callback cb;
 
-    static void wifi_event_handler(net_mgmt_event_callback *, uint32_t mgmt_event, net_if *);
+    static void wifi_event_handler(
+        net_mgmt_event_callback *, uint32_t mgmt_event, net_if *);
     static void enable_dhcpv4_server(void);
     static int enable_ap_mode(void);
     static int connect_to_wifi(void);

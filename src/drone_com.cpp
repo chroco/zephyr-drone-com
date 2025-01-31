@@ -168,7 +168,8 @@ int Wifi::connect(void)
 {
 	k_sleep(K_SECONDS(5));
 
-	net_mgmt_init_event_callback(&cb, wifi_event_handler, NET_EVENT_WIFI_MASK);
+	net_mgmt_init_event_callback(
+      &cb, wifi_event_handler, NET_EVENT_WIFI_MASK);
 	net_mgmt_add_event_callback(&cb);
 
 	/* Get AP interface in AP-STA mode. */
